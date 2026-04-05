@@ -1,6 +1,6 @@
 os
 numpy
-pandas
+pandas==2.2.2
 matplotlib
 fredapi
 io
