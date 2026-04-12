@@ -8,6 +8,19 @@ It pulls raw data from public APIs, transforms it into standardised signals acro
 
 ---
 
+## Contents
+
+Tech stack 
+Development commands
+Project structure
+Data sources
+Key data conventions
+The four pillars
+Notebook editing
+Git
+Code conventions
+What to avoid
+
 ## Project structure
 
 ```
