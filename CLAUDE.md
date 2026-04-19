@@ -76,7 +76,7 @@ When a function in the freeform notebook is stable, move it into the appropriate
   - CPI, wages: `resample("ME").last()`
   - Policy rate, retail sales: already monthly, `.copy()`
 
-- **Retail sales date format**: the index is a string in `dd-mm-yyyy` format (e.g. `'01-03-2024'`). Monthly data starts from January 1996. Source sheet is `KPSA` in the ONS reference tables xlsx, headers at row 7 (`header=6` in pandas).
+- **Retail sales**: index is a `DatetimeIndex` (monthly, starts January 1996). Source sheet is `KPSA` in the ONS reference tables xlsx, headers at row 7 (`header=6` in pandas).
 
 - **Consumer confidence** returns a `pd.DataFrame` with one column per area: `GBR`, `G7`, `CHN`, `USA`.
 
