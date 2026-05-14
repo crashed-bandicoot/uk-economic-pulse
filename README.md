@@ -72,7 +72,7 @@ uk-economic-pulse/
 **1. Clone and install**
 
 ```bash
-git clone https://github.com/your-username/uk-economic-pulse.git
+git clone git clone https://github.com/crashed-bandicoot/uk-economic-pulse.git
 cd uk-economic-pulse
 pip install -r requirements.txt
 ```
