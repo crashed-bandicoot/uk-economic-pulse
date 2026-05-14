@@ -1,9 +1,22 @@
-os
-numpy
+# UK Economic Pulse — dependencies
+# install: pip install -r requirements.txt
+
+# Core data
 pandas==2.2.2
-matplotlib
-fredapi
-io
-re
-requests
-openpyxl
+numpy>=1.24.0
+
+# Dashboard
+streamlit>=1.35.0
+altair>=5.0.0
+
+# Data ingestion
+fredapi>=0.5.1
+yfinance>=0.2.40
+requests>=2.31.0
+
+# File parsing
+openpyxl>=3.1.0
+lxml>=5.0.0
+
+# Visualisation (for notebooks)
+matplotlib>=3.7.0
