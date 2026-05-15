@@ -22,6 +22,9 @@ build/
 venv/
 env/
 
+# Secrets
+.streamlit/secrets.toml
+
 # Jupyter
 .ipynb_checkpoints/
 **/.ipynb_checkpoints/
