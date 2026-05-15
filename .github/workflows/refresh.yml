@@ -1,0 +1,26 @@
+name: Monthly Data Refresh
+
+on:
+  schedule:
+    - cron: '0 8 1 * *'  # 8am on the 1st of every month
+  workflow_dispatch:       # lets you trigger manually too
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - run: python data.py  # ingestion script
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+      - name: Commit updated data
+        run: |
+          git config user.email "bot@pulse"
+          git config user.name "Pulse Bot"
+          git add data/
+          git commit -m "Monthly data refresh $(date +'%Y-%m')" || exit 0
+          git push
