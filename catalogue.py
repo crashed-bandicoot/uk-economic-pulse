@@ -1,0 +1,75 @@
+CATALOGUE = [
+    # Economic Activity
+    dict(key="gdp",      label="UK GDP Growth",        category="Economic Activity",
+         signal_col="gdp_growth_yoy",    abs_col="gdp",
+         unit="% YoY",       decimals=1, higher_is_better=True,  lag="Quarterly · ~2m lag"),
+    dict(key="retail",   label="Retail Sales",         category="Economic Activity",
+         signal_col="retail_sales_yoy",  abs_col="retail_sales",
+         unit="% YoY",       decimals=1, higher_is_better=True,  lag="Monthly · ~4w lag"),
+    dict(key="house",    label="House Prices",         category="Economic Activity",
+         signal_col="house_prices_yoy",  abs_col="house_prices",
+         unit="% YoY",       decimals=1, higher_is_better=True,  lag="Quarterly · ~2m lag"),
+    # Labour
+    dict(key="unemp",    label="Unemployment Rate",    category="Labour Market",
+         signal_col="unemployment_rate", abs_col="unemployment_rate",
+         unit="%",           decimals=1, higher_is_better=False, lag="Monthly · ~6w lag"),
+    dict(key="particip", label="Labour Participation", category="Labour Market",
+         signal_col="participation_rate",abs_col="participation_rate",
+         unit="%",           decimals=1, higher_is_better=True,  lag="Monthly · ~6w lag"),
+    # Inflation
+    dict(key="cpi",      label="CPI Inflation",        category="Inflation Pressure",
+         signal_col="cpi_yoy",           abs_col="cpi",
+         unit="% YoY",       decimals=1, higher_is_better=False, lag="Monthly · ~3w lag"),
+    dict(key="realwage", label="Real Wage Growth",     category="Inflation Pressure",
+         signal_col="real_wages_yoy",    abs_col="real_wages",
+         unit="% YoY",       decimals=1, higher_is_better=True,  lag="Monthly · ~6w lag"),
+    # Financial Conditions
+    dict(key="polrate",  label="BoE Policy Rate",      category="Financial Conditions",
+         signal_col="policy_rate",       abs_col="policy_rate",
+         unit="%",           decimals=2, higher_is_better=False, lag="Real-time"),
+    dict(key="uk10y",    label="UK 10Y Gilt Yield",    category="Financial Conditions",
+         signal_col="yield_uk_10y",      abs_col="yield_uk_10y",
+         unit="%",           decimals=2, higher_is_better=False, lag="Monthly mean"),
+    dict(key="ukcrv",    label="UK Yield Curve",       category="Financial Conditions",
+         signal_col="uk_yield_curve",    abs_col=None,
+         unit="pp (10Y−3M)", decimals=2, higher_is_better=True,  lag="Monthly"),
+    dict(key="hyspread", label="US HY Credit Spread",  category="Financial Conditions",
+         signal_col="spread_us_hy",      abs_col="spread_us_hy",
+         unit="pp",          decimals=2, higher_is_better=False, lag="Daily · since 2023"),
+    # Commodities
+    dict(key="oil",      label="Brent Oil",            category="Commodities",
+         signal_col="oil_yoy",           abs_col="oil",
+         unit="% YoY",       decimals=1, higher_is_better=False, lag="Monthly mean"),
+    dict(key="copper",   label="Copper",               category="Commodities",
+         signal_col="copper_yoy",        abs_col="copper",
+         unit="% YoY",       decimals=1, higher_is_better=True,  lag="Monthly mean"),
+    dict(key="natgas",   label="Natural Gas",          category="Commodities",
+         signal_col="nat_gas_yoy",       abs_col="nat_gas",
+         unit="% YoY",       decimals=1, higher_is_better=False, lag="Monthly mean"),
+    dict(key="gold",     label="Gold",                 category="Commodities",
+         signal_col="gold_yoy",          abs_col="gold",
+         unit="% YoY",       decimals=1, higher_is_better=False, lag="Monthly mean"),
+    # Markets
+    dict(key="dxy",      label="US Dollar (DXY)",      category="Markets",
+         signal_col="dxy_yoy",           abs_col="dxy",
+         unit="% YoY",       decimals=1, higher_is_better=False, lag="Monthly mean"),
+    dict(key="sox",      label="Semiconductors (SOX)", category="Markets",
+         signal_col="sox_yoy",           abs_col="sox",
+         unit="% YoY",       decimals=1, higher_is_better=True,  lag="Monthly mean"),
+]
+
+CATEGORY_ORDER = [
+    "Economic Activity",
+    "Labour Market",
+    "Inflation Pressure",
+    "Financial Conditions",
+    "Commodities",
+    "Markets",
+]
+
+CONTEXT_PAIRS = [
+    ("cpi_yoy",     "real_wages_yoy", "CPI vs Real Wage Growth",  "Inflation Pressure",   ["#e05a4e", "#4caf7d"]),
+    ("policy_rate", "yield_uk_10y",   "Policy Rate vs 10Y Gilt",  "Financial Conditions", ["#4caf7d", "#e05a4e"]),
+    ("copper_yoy",  "dxy_yoy",        "Copper YoY vs DXY YoY",    "Global Demand Signal", ["#4caf7d", "#e05a4e"]),
+    ("oil_yoy",     "cpi_yoy",        "Oil YoY vs CPI YoY",       "Cost-Push Channel",    ["#4caf7d", "#e05a4e"]),
+]
