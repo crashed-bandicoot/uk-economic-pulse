@@ -126,3 +126,66 @@ def _build_signals(abs_df: pd.DataFrame) -> pd.DataFrame:
     sig_df["dxy_yoy"]            = yoy("dxy")
     sig_df["sox_yoy"]            = yoy("sox")
     return sig_df
+
+
+if __name__ == "__main__":
+    import os
+    from pathlib import Path
+
+    api_key = os.environ.get("FRED_API_KEY") or ""
+    if not api_key:
+        raise SystemExit("FRED_API_KEY environment variable not set")
+
+    print("Fetching data...")
+    fred = Fred(api_key=api_key)
+
+    def ffill_monthly(s): return s.resample("ME").ffill()
+    def mean_monthly(s):  return s.resample("ME").mean()
+    def last_monthly(s):  return s.resample("ME").last()
+
+    gdp          = ffill_monthly(fred.get_series("NGDPRSAXDCGBQ"))
+    house_prices = ffill_monthly(fred.get_series("QGBR628BIS"))
+    cpi          = last_monthly(fred.get_series("GBRCPIALLMINMEI"))
+    policy_rate  = last_monthly(fred.get_series("BOESRPPACBIS"))
+    uk10y        = last_monthly(fred.get_series("IRLTLT01GBM156N"))
+    uk3m         = last_monthly(fred.get_series("IR3TIB01GBM156N"))
+    real_wages   = last_monthly(fred.get_series("LCEAMN01GBM661S"))
+    unemp        = last_monthly(fred.get_series("LRUNTTTTGBM156S"))
+    particip     = ffill_monthly(fred.get_series("LFAC64TTGBQ647S"))
+    oil          = mean_monthly(fred.get_series("DCOILBRENTEU"))
+    hy_spread    = mean_monthly(fred.get_series("BAMLH0A0HYM2"))
+
+    retail = _fetch_ons_retail()
+
+    def yf_monthly(ticker, start="2000-01-01"):
+        try:
+            raw = yf.download(ticker, start=start, progress=False)
+            s = raw["Close"]
+            if isinstance(s, pd.DataFrame):
+                s = s.squeeze()
+            s.index = pd.to_datetime(s.index)
+            return s.resample("ME").mean()
+        except Exception:
+            return pd.Series(dtype=float)
+
+    gold    = yf_monthly("GC=F")
+    copper  = yf_monthly("HG=F")
+    nat_gas = yf_monthly("NG=F")
+    sox     = yf_monthly("^SOX")
+    dxy     = yf_monthly("DX-Y.NYB")
+
+    abs_df = pd.DataFrame({
+        "gdp": gdp, "house_prices": house_prices, "retail_sales": retail,
+        "cpi": cpi, "real_wages": real_wages, "policy_rate": policy_rate,
+        "yield_uk_10y": uk10y, "yield_uk_3m": uk3m, "spread_us_hy": hy_spread,
+        "oil": oil, "gold": gold, "copper": copper, "nat_gas": nat_gas,
+        "sox": sox, "dxy": dxy, "unemployment_rate": unemp,
+        "participation_rate": particip,
+    }).sort_index()
+    sig_df = _build_signals(abs_df)
+
+    out = Path("data/raw")
+    out.mkdir(parents=True, exist_ok=True)
+    abs_df.to_csv(out / "absolute_values.csv")
+    sig_df.to_csv(out / "signals.csv")
+    print(f"Saved to {out.resolve()}")

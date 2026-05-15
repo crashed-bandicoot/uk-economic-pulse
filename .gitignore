@@ -4,6 +4,8 @@
 
 # Data outputs
 data/
+!data/raw/absolute_values.csv
+!data/raw/signals.csv
 *.csv
 *.parquet
 
