@@ -12,7 +12,7 @@ import pandas as pd
 import streamlit as st
 
 from catalogue import CATALOGUE, CATEGORY_ORDER, CONTEXT_PAIRS
-from data import fetch_live_fred, load_csvs
+from data import fetch_live, load_csvs
 from style import CSS, FOOTER_HTML, METHODOLOGY_MD, masthead_html
 from utils import (
     arrow, build_context_chart, build_explorer_chart,
@@ -29,7 +29,6 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 st.markdown(CSS, unsafe_allow_html=True)
-
 
 # ─────────────────────────────────────────────
 # MASTHEAD
@@ -51,9 +50,7 @@ st.markdown('<div class="section-label">Data Source</div>', unsafe_allow_html=Tr
 
 data_mode = st.radio(
     "Load data from",
-    options=["Local CSV files"
-             #, "Live FRED pull"
-             ],
+    options=["Live FRED pull", "Local CSV files"],
     horizontal=True,
     label_visibility="collapsed",
 )
@@ -81,7 +78,7 @@ else:
     if api_key:
         with st.spinner("Pulling live macro data from FRED / ONS / yfinance…"):
             try:
-                abs_df, sig_df = fetch_live_fred(api_key)
+                abs_df, sig_df = fetch_live(api_key)
             except Exception as e:
                 st.error(f"Data pull failed: {e}")
     else:
