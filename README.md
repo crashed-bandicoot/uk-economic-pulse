@@ -4,6 +4,7 @@ A macro intelligence dashboard that answers one question: **is the UK economy st
 
 Built for people who want signal, not noise. Every number shown is there because it tells you something the others don't.
 
+https://uk-economic-pulse.streamlit.app/
 ---
 
 ## Screenshots
